@@ -2,6 +2,7 @@
 var gravity = 0.6;
 var flapStrength = 8;
 var radius = 40;
+var hurtBoxRadius = radius * 0.5;
 
 // pipe stuff
 var pipeWidth = 120;

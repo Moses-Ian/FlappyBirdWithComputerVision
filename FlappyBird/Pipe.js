@@ -38,21 +38,21 @@ class Pipe {
   }
 	
 	hitTop(bird) {
-    if (bird.x + bird.r < this.x)
+    if (bird.x + hurtBoxRadius < this.x)
 			return false;
-		if (bird.x - bird.r > this.x + this.w)
+		if (bird.x - hurtBoxRadius > this.x + this.w)
 			return false;
-		if (bird.y - bird.r > this.top)
+		if (bird.y - hurtBoxRadius > this.top)
 			return false;
 		return true;
 	}
 	
 	hitBottom(bird) {
-    if (bird.x + bird.r < this.x)
+    if (bird.x + hurtBoxRadius < this.x)
 			return false;
-		if (bird.x - bird.r > this.x + this.w)
+		if (bird.x - hurtBoxRadius > this.x + this.w)
 			return false;
-		if (bird.y + bird.r < this.bottom)
+		if (bird.y + hurtBoxRadius < this.bottom)
 			return false;
 		return true;
 	}

@@ -46,7 +46,7 @@ class Bird {
       rotate(35);
     }
     image(birdImg, 0, 0, this.r * 2, this.r * 2);
-    // ellipse(0, 0, this.r * 2);
+    //ellipse(0, 0, hurtBoxRadius * 2);
     pop();
   }
 }

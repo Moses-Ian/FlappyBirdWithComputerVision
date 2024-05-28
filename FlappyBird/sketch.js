@@ -3,6 +3,7 @@ let pipes;
 let bgImgX1;
 let bgImgX2;
 let backgroundImg;
+let score;
 
 function preload() {
   birdImg = loadImage('assets/bird.png');
@@ -18,6 +19,9 @@ function setup() {
 	angleMode(DEGREES);
 	rectMode(CORNER);
 	imageMode(CORNER);
+	textAlign(CENTER, CENTER);
+  textStyle(BOLD);
+  textSize(50);
 	
 	bird = new Bird();
 	pipes = [];
@@ -25,6 +29,8 @@ function setup() {
 	
 	bgImgX1 = 0;
 	bgImgX2 = width;
+	
+	score = 0;
 }
 
 function draw() {
@@ -40,10 +46,12 @@ function draw() {
 		//pipes[i].hit(bird);
 		
 		if (pipes[i].hit(bird))
-		 console.log("hit");
+		 gameOver();
 		
-		if (pipes[i].finished())
+		if (pipes[i].finished()) {
 			pipes.splice(i, 1);
+			score++;
+		}
 	}
 
 	bird.update();
@@ -66,4 +74,15 @@ function parallax(img) {
 		bgImgX1 = bgImgX2 + width;
 	if (bgImgX2 < -width)
 		bgImgX2 = bgImgX1 + width;
+}
+
+function gameOver() {
+	strokeWeight(8);
+	rectMode(CENTER);
+	fill(255);
+	rect(width / 2, height / 2, width - 80, 80);
+	fill(0);
+	text("Score: " +
+		score, width / 2, height / 2);
+	noLoop();
 }
