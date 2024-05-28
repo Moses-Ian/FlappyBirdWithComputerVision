@@ -4,7 +4,7 @@
   <Namespace>IanAutomation.Apps</Namespace>
 </Query>
 
-// Do TheAutomationChallenge
+// Do Flappy Bird
 
 void Main()
 {
@@ -13,6 +13,12 @@ void Main()
 	{
 		// navigate to Flappy Bird
 		Page = new FlappyBird();
+		
+		for (int i=0; i<20; i++)
+		{
+			Page.Flap();
+			Thread.Sleep(200);
+		}
 
 		Console.WriteLine("done");
 	}
