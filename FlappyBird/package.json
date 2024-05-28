@@ -12,5 +12,5 @@
   "devDependencies": {
     "gh-pages": "^4.0.0",
     "browser-sync": "^3.0.2"
-  },
+  }
 }

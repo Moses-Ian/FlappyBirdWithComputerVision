@@ -5,6 +5,7 @@ class Bird {
 		this.y = height/2;
 		this.gravity = gravity;
 		this.velocity = 0;
+		this.r = radius;
 	}
 	
 	update() {
@@ -34,8 +35,18 @@ class Bird {
 		this.velocity = -flapStrength; 
 	}
 	
-	show() {
-		fill(255);
-		ellipse(this.x, this.y, 32, 32);
-	}
+  show() {
+    fill(255);
+    push();
+    imageMode(CENTER);
+    translate(this.x, this.y);
+    if (this.velocity < 0) {
+      rotate(-35);
+    } else {
+      rotate(35);
+    }
+    image(birdImg, 0, 0, this.r * 2, this.r * 2);
+    // ellipse(0, 0, this.r * 2);
+    pop();
+  }
 }
