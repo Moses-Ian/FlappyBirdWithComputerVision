@@ -40,12 +40,15 @@ void Main()
 		
 		while (CvInvoke.WaitKey(1) != 'q')
 		{
-			Mat image = Page.GetScreenshot();
+			Mat image = new Mat();
+			Page.GetScreenshot(image);
 				
 			CvInvoke.Imshow(title, image);
 			
 			if (CvInvoke.WaitKey(1) == 'r')
 				Page.Restart();
+				
+			image.Dispose();
 		};
 		
 		
