@@ -12,6 +12,7 @@
   <Namespace>Emgu.CV.Util</Namespace>
   <Namespace>IanAutomation</Namespace>
   <Namespace>IanAutomation.Apps.FlappyBird</Namespace>
+  <Namespace>IanAutomation.Apps.FlappyBird.Strategies</Namespace>
   <Namespace>System.Drawing</Namespace>
   <Namespace>System.Drawing.Imaging</Namespace>
   <Namespace>System.Runtime.InteropServices</Namespace>
@@ -31,22 +32,25 @@ void Main()
 		// navigate to Flappy Bird
 		Page = new FlappyBird();
 		CvInvoke.NamedWindow(title);
-		Thread.Sleep(5000);
+		IStrategy HoverStrategy = new Hover(Page);
+		//Thread.Sleep(5000);
 		
-		while (CvInvoke.WaitKey(1) != 'q')
+		while (CvInvoke.WaitKey(17) != 'q')
 		{
-			Mat image = new Mat();
-			Page.GetScreenshot(image);
+			//Mat image = new Mat();
+			//Page.GetScreenshot(image);
 			
-			Point?  BirdLocation = Page.DetectBird(image);
-			Page.AnnotateBird(image, BirdLocation);
+			//Point?  BirdLocation = Page.DetectBird(image);
+			//Page.AnnotateBird(image, BirdLocation);
 				
-			CvInvoke.Imshow(title, image);
+			//CvInvoke.Imshow(title, image);
+			HoverStrategy.Strategize();
 			
-			if (CvInvoke.WaitKey(1) == 'r')
-				Page.Restart();
+			
+			//if (CvInvoke.WaitKey(1) == 'r')
+			//	Page.Restart();
 				
-			image.Dispose();
+			//image.Dispose();
 		};
 		
 		

@@ -68,6 +68,8 @@ function keyPressed() {
 		resume();
 	else if (key == 'p' && !isPaused)
 		pause();
+	else if (key == 'r')
+		restart();
 }
 
 function parallax(img) {
@@ -102,4 +104,13 @@ function pause() {
 function resume() {
 	loop();
 	isPaused = false;
+}
+
+function restart() {
+	bird = new Bird();
+	pipes = [];
+	pipes.push(new Pipe());
+	score = 0;
+	isPaused = false;
+	loop();
 }
