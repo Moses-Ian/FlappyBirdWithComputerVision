@@ -32,25 +32,20 @@ void Main()
 		// navigate to Flappy Bird
 		Page = new FlappyBird();
 		CvInvoke.NamedWindow(title);
-		IStrategy HoverStrategy = new Hover(Page);
-		//Thread.Sleep(5000);
+		IStrategy HoverStrategy = new HoverStrategy(Page);
 		
 		while (CvInvoke.WaitKey(17) != 'q')
 		{
-			//Mat image = new Mat();
-			//Page.GetScreenshot(image);
+			Mat image = new Mat();
+			Page.GetScreenshot(image);
 			
-			//Point?  BirdLocation = Page.DetectBird(image);
-			//Page.AnnotateBird(image, BirdLocation);
+			Point?  BirdLocation = Page.DetectBird(image);
+			Page.AnnotateBird(image, BirdLocation);
 				
-			//CvInvoke.Imshow(title, image);
+			CvInvoke.Imshow(title, image);
 			HoverStrategy.Strategize();
 			
-			
-			//if (CvInvoke.WaitKey(1) == 'r')
-			//	Page.Restart();
-				
-			//image.Dispose();
+			image.Dispose();
 		};
 		
 		

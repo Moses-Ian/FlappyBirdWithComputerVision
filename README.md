@@ -4,6 +4,10 @@
 
 This is my attempt to create a bot that will open and play Flappy Bird using computer vision and AI.
 
+## Usage
+
+This project requires the dll output of my [IanAutomation project](https://github.com/Moses-Ian/IanAutomation)
+
 ## Link
 
 View the deployed game here:
