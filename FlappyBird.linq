@@ -1,4 +1,5 @@
 <Query Kind="Program">
+  <Reference Relative="..\IanAutomation\bin\Debug\net7.0\Apps\FlappyBird\Images\bird.png">F:\projects_csharp\IanAutomation\bin\Debug\net7.0\Apps\FlappyBird\Images\bird.png</Reference>
   <Reference>&lt;NuGet&gt;\emgu.cv.runtime.windows\4.9.0.5494\runtimes\win-x64\native\cvextern.dll</Reference>
   <Reference>&lt;NuGet&gt;\emgu.cv\4.9.0.5494\lib\netstandard2.0\Emgu.CV.dll</Reference>
   <Reference>&lt;NuGet&gt;\emgu.cv\4.9.0.5494\lib\netstandard2.0\Emgu.CV.xml</Reference>
@@ -10,7 +11,7 @@
   <Namespace>Emgu.CV.Structure</Namespace>
   <Namespace>Emgu.CV.Util</Namespace>
   <Namespace>IanAutomation</Namespace>
-  <Namespace>IanAutomation.Apps</Namespace>
+  <Namespace>IanAutomation.Apps.FlappyBird</Namespace>
   <Namespace>System.Drawing</Namespace>
   <Namespace>System.Drawing.Imaging</Namespace>
   <Namespace>System.Runtime.InteropServices</Namespace>
@@ -30,18 +31,15 @@ void Main()
 		// navigate to Flappy Bird
 		Page = new FlappyBird();
 		CvInvoke.NamedWindow(title);
-		Thread.Sleep(1000);
-		
-		for (int i=0; i<20; i++)
-		{
-			Page.Flap();
-			Thread.Sleep(200);
-		}
+		Thread.Sleep(5000);
 		
 		while (CvInvoke.WaitKey(1) != 'q')
 		{
 			Mat image = new Mat();
 			Page.GetScreenshot(image);
+			
+			Point?  BirdLocation = Page.DetectBird(image);
+			Page.AnnotateBird(image, BirdLocation);
 				
 			CvInvoke.Imshow(title, image);
 			
@@ -61,7 +59,7 @@ void Main()
 	}
 	finally
 	{
-		//Thread.Sleep(2000);
+		Thread.Sleep(2000);
 		if (Page != null)
 			Page.Shutdown();
 		CvInvoke.DestroyAllWindows();
