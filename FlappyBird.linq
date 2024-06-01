@@ -8,6 +8,7 @@
   <Reference>&lt;NuGet&gt;\emgu.cv.runtime.windows\4.9.0.5494\runtimes\win-x64\native\opencv_videoio_ffmpeg490_64.dll</Reference>
   <Reference Relative="..\IanAutomation\bin\Debug\net7.0\Apps\FlappyBird\Images\pipes.png">F:\projects_csharp\IanAutomation\bin\Debug\net7.0\Apps\FlappyBird\Images\pipes.png</Reference>
   <Reference Relative="..\IanAutomation\bin\Debug\net7.0\Apps\FlappyBird\Images\pipes_reverse.png">F:\projects_csharp\IanAutomation\bin\Debug\net7.0\Apps\FlappyBird\Images\pipes_reverse.png</Reference>
+  <Reference Relative="..\IanAutomation\bin\Debug\net7.0\Apps\FlappyBird\Images\ScoreBox.png">F:\projects_csharp\IanAutomation\bin\Debug\net7.0\Apps\FlappyBird\Images\ScoreBox.png</Reference>
   <Namespace>Emgu.CV</Namespace>
   <Namespace>Emgu.CV.CvEnum</Namespace>
   <Namespace>Emgu.CV.Structure</Namespace>
@@ -28,6 +29,9 @@ void Main()
 	IntPtr unmanagedPointer;
 	
 	string title = "Flappy Bird";
+	Stopwatch stopwatch = new Stopwatch();
+	double fps = 60.0;
+	int interval = (int)(1000 / fps); // Calculate delay between frames in milliseconds
 	
 	try
 	{
@@ -36,25 +40,37 @@ void Main()
 		CvInvoke.NamedWindow(title);
 		IStrategy Strategy = new AvoidBottomStrategy(Page);
 		
-		while (CvInvoke.WaitKey(8) != 'q')
+		while (true)
 		{
+			stopwatch.Restart();
+			
 			Mat image = new Mat();
 			Page.GetScreenshot(image);
 			
-			Point?  BirdLocation = Page.DetectBird(image);
-			
+			//Point?  BirdLocation = Page.DetectBird(image);
 			//var topPoints = Page.DetectTopPipes(image);
-				
-			var bottomPoints = Page.DetectBottomPipes(image);
+			//var bottomPoints = Page.DetectBottomPipes(image);
+			//Point? ScoreBoxLocation = Page.DetectScoreBox(image);
 			
-			Page.AnnotateBird(image, BirdLocation);
+			//Page.AnnotateBird(image, BirdLocation);
 			//Page.AnnotateTopPipes(image, topPoints);
-			Page.AnnotateBottomPipes(image, bottomPoints);
+			//Page.AnnotateBottomPipes(image, bottomPoints);
+			//Page.AnnotateScoreBox(image, ScoreBoxLocation);
 				
-			CvInvoke.Imshow(title, image);
+			//CvInvoke.Imshow(title, image);
 			Strategy.Strategize();
 			
 			image.Dispose();
+			
+			stopwatch.Stop();
+			var elapsed = stopwatch.Elapsed.TotalMilliseconds;
+			var waitTime = interval - elapsed;
+			var waitTimeInt = waitTime > 0 ? (int)waitTime : 1;
+			
+			if (CvInvoke.WaitKey(waitTimeInt) == 'q') // Exit if 'q' key is pressed
+            {
+                break;
+            }
 		};
 		
 		
