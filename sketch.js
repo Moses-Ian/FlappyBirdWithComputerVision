@@ -112,5 +112,6 @@ function restart() {
 	pipes.push(new Pipe());
 	score = 0;
 	isPaused = false;
+	frameCount = 0;
 	loop();
 }
