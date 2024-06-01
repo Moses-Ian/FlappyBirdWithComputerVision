@@ -4,6 +4,7 @@ let bgImgX1;
 let bgImgX2;
 let backgroundImg;
 let score;
+let isPaused;
 
 function preload() {
   birdImg = loadImage('assets/bird.png');
@@ -31,6 +32,8 @@ function setup() {
 	bgImgX2 = width;
 	
 	score = 0;
+	
+	isPaused = false;
 }
 
 function draw() {
@@ -59,8 +62,12 @@ function draw() {
 }
 
 function keyPressed() {
-	if (key = ' ')
+	if (key == ' ')
 		bird.flap();
+	else if (key == 'p' && isPaused)
+		resume();
+	else if (key == 'p' && !isPaused)
+		pause();
 }
 
 function parallax(img) {
@@ -85,4 +92,14 @@ function gameOver() {
 	text("Score: " +
 		score, width / 2, height / 2);
 	noLoop();
+}
+
+function pause() {
+	noLoop();
+	isPaused = true;
+}
+
+function resume() {
+	loop();
+	isPaused = false;
 }
