@@ -26,7 +26,6 @@
 void Main()
 {
 	FlappyBird Page = null;
-	IntPtr unmanagedPointer;
 	
 	string title = "Flappy Bird";
 	Stopwatch stopwatch = new Stopwatch();
