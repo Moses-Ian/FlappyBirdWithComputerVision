@@ -38,7 +38,7 @@ void Main()
 		// navigate to Flappy Bird
 		Page = new FlappyBird();
 		CvInvoke.NamedWindow(title);
-		IStrategy Strategy = new AvoidBottomStrategy(Page);
+		IStrategy Strategy = new ToyNeuralNetworkStrategy(Page);
 		
 		while (true)
 		{
@@ -47,17 +47,21 @@ void Main()
 			Mat image = new Mat();
 			Page.GetScreenshot(image);
 			
-			//Point?  BirdLocation = Page.DetectBird(image);
+			Point?  BirdLocation = Page.DetectBird(image);
 			//var topPoints = Page.DetectTopPipes(image);
+			var topHalfPoints = Page.DetectTopHalfPipes(image);
 			//var bottomPoints = Page.DetectBottomPipes(image);
-			//Point? ScoreBoxLocation = Page.DetectScoreBox(image);
+			var bottomHalfPoints = Page.DetectBottomHalfPipes(image);
+			Point? ScoreBoxLocation = Page.DetectScoreBox(image);
 			
-			//Page.AnnotateBird(image, BirdLocation);
+			Page.AnnotateBird(image, BirdLocation);
 			//Page.AnnotateTopPipes(image, topPoints);
+			Page.AnnotateTopHalfPipes(image, topHalfPoints);
 			//Page.AnnotateBottomPipes(image, bottomPoints);
-			//Page.AnnotateScoreBox(image, ScoreBoxLocation);
+			Page.AnnotateBottomHalfPipes(image, bottomHalfPoints);
+			Page.AnnotateScoreBox(image, ScoreBoxLocation);
 				
-			//CvInvoke.Imshow(title, image);
+			CvInvoke.Imshow(title, image);
 			Strategy.Strategize();
 			
 			image.Dispose();
