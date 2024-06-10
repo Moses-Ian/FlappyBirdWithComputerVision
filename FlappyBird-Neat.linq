@@ -31,6 +31,7 @@
 void Main()
 {
 	FlappyBird Page = null;
+	var neat = new NeatManager();
 	
 	string title = "Flappy Bird";
 	Stopwatch frameStopwatch = new Stopwatch();
@@ -47,7 +48,6 @@ void Main()
 		IStrategy Strategy = new ToyNeuralNetworkStrategy(Page);
 		
 		// initalize the algorithm
-		var neat = new NeatManager();
 		for (int i=0; i<2; i++)
 		{
 			neat.Add(new ToyNeuralNetwork(4, 4, 1));
@@ -59,6 +59,7 @@ void Main()
 		{
 			GetNextBrain(Strategy, neat);
 			var brain = ((ToyNeuralNetworkStrategy)Strategy).Net;
+			Page.Restart();
 			
 			Stopwatch ScoreStopwatch = new Stopwatch();
 			ScoreStopwatch.Start();
@@ -102,7 +103,7 @@ void Main()
 			
 			ScoreStopwatch.Stop();
 			neat.SetScore(brain, ScoreStopwatch.ElapsedMilliseconds / 1000f);
-			Console.WriteLine($"{brain.NeatId}: {ScoreStopwatch.ElapsedMilliseconds / 1000f}");
+			Console.WriteLine($"{brain.NeatId}: {neat.GetScore(brain)}");
 		}
 		Console.WriteLine("done");
 	}
@@ -116,6 +117,10 @@ void Main()
 		if (Page != null)
 			Page.Shutdown();
 		CvInvoke.DestroyAllWindows();
+		foreach(var brain in neat.Neatables)
+		{
+			((ToyNeuralNetwork)brain).Dispose();
+		}
 	}
 }
 
