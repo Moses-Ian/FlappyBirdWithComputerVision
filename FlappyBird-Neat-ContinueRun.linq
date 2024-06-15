@@ -40,6 +40,16 @@ void Main()
 	
 	string bestInGenerationId = "";
 	float bestInGenerationScore = 0;
+	string filepath = @"F:\projects_csharp\FlappyBirdWithComputerVision\Generations\";
+	string lastCompletedGeneration = GetLastCompletedGeneration(filepath);
+	var lastCompletedGenerationPath = Path.Join(filepath, lastCompletedGeneration);
+	if (lastCompletedGeneration == null)
+	{
+		Console.WriteLine("No generations were completed. Just start over.");
+		return;
+	}
+	
+	SeedPreviousGeneration(lastCompletedGenerationPath, neat);
 	
 	bool keepGoing = true;
 	try
@@ -117,10 +127,9 @@ void Main()
 			
 			ScoreStopwatch.Stop();
 			neat.SetScore(brain, ScoreStopwatch.ElapsedMilliseconds / 1000f);
-			string filepath = @"F:\projects_csharp\FlappyBirdWithComputerVision\Generations\";
 			string[] info = brain.NeatId.Split('-');
-			filepath = Path.Join(filepath, info[0], info[1]) + ".json";
-			brain.Serialize(filepath);
+			string filepath2 = Path.Join(filepath, info[0], info[1]) + ".json";
+			brain.Serialize(filepath2);
 			brain.Dispose();
 			
 			if (brain.Score > bestInGenerationScore)
@@ -150,6 +159,38 @@ void Main()
 			((ToyNeuralNetwork)brain).Dispose();
 		}
 	}
+}
+
+public void SeedPreviousGeneration(string generationPath, NeatManager neat)
+{
+	// for each file...
+	foreach(string file in Directory.GetFiles(generationPath))
+	{
+		neat.Add(new ToyNeuralNetwork(file));
+	}
+	
+	// and set the current generation correctly
+	string folderName = Path.GetFileName(generationPath.TrimEnd(Path.DirectorySeparatorChar));
+	neat.generation = int.Parse(folderName);
+}
+
+public string GetLastCompletedGeneration(string folderpath)
+{
+	var directories = Directory.GetDirectories(folderpath);
+	var folderNames = directories.Select(Path.GetFileName);
+	var sortedFolderNames = folderNames.OrderBy(name => 
+    {
+        int.TryParse(name, out int result);
+        return result;
+    });
+	var lastFolder = sortedFolderNames.Last();
+	var files = Directory.GetFiles(Path.Join(folderpath, lastFolder));
+	if (files.Count() == 100)
+		return lastFolder;
+	else if (sortedFolderNames.Count() <= 1)
+		return null;
+	else
+		return sortedFolderNames.ToList()[sortedFolderNames.Count() - 2];
 }
 
 public void AnnotateNeatId(Mat image, string text)
