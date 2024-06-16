@@ -11,16 +11,6 @@ class Bird {
 	update() {
 		this.velocity += this.gravity;
 		this.y += this.velocity;
-		
-		if (this.hitFloor()) {
-			this.y = height;
-			this.velocity = 0;
-		}
-		
-		if (this.hitRoof()) {
-			this.y = 0;
-			this.velocity = 0;
-		}
 	}
 	
 	hitFloor() {
