@@ -38,18 +38,16 @@ function setup() {
 
 function draw() {
 	parallax(backgroundImg);
-  //background(backgroundImg);
-	
+  
 	if (frameCount % pipePeriod == 0)
 		pipes.push(new Pipe());
 	
 	for (let i=pipes.length-1; i>=0; i--) {
 		pipes[i].update();
 		pipes[i].show();
-		//pipes[i].hit(bird);
 		
 		if (pipes[i].hit(bird))
-		 gameOver();
+		  gameOver();
 		
 		if (pipes[i].finished()) {
 			pipes.splice(i, 1);
@@ -58,6 +56,9 @@ function draw() {
 	}
 
 	bird.update();
+	if (bird.hitFloor() || bird.hitRoof())
+		gameOver();
+	
 	bird.show();
 }
 
