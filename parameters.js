@@ -7,8 +7,8 @@ var hurtBoxRadius = radius * 0.5;
 // pipe stuff
 var pipeWidth = 120;
 var pipeSpeed = 4;
-var pipePeriod = 60;
-var pipeMinGap = 140;
+var pipePeriod = 80;
+var pipeMinGap = 160;
 var pipeMaxGap = 250;
 var pipeMinDistanceToEdge = 90;
 
