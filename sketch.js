@@ -1,6 +1,4 @@
-const POP_SIZE = 250;
-let birds;
-let savedBirds;
+let bird;
 let pipes;
 let bgImgX1;
 let bgImgX2;
@@ -26,11 +24,7 @@ function setup() {
   textStyle(BOLD);
   textSize(50);
 	
-	birds = [];
-	for (i=0; i<POP_SIZE; i++)
-		birds.push(new Bird());
-	
-	
+	bird = new Bird();
 	pipes = [];
 	pipes.push(new Pipe());
 	
@@ -40,7 +34,6 @@ function setup() {
 	score = 0;
 	
 	isPaused = false;
-	savedBirds = [];
 }
 
 function draw() {
@@ -53,10 +46,8 @@ function draw() {
 		pipes[i].update();
 		pipes[i].show();
 		
-		for (let j=birds.length-1; j>=0; j--) {
-			if (pipes[i].hit(birds[j]))
-				savedBirds.push(...birds.splice(j,1));
-		}
+		if (pipes[i].hit(bird))
+		  gameOver();
 		
 		if (pipes[i].finished()) {
 			pipes.splice(i, 1);
@@ -64,20 +55,11 @@ function draw() {
 		}
 	}
 
-	for (let j=birds.length-1; j>=0; j--) {
-		birds[j].think(pipes);
-		birds[j].update();
-		if (birds[j].hitFloor() || birds[j].hitRoof())
-			savedBirds.push(...birds.splice(j,1));
-		else
-			birds[j].show();
-	}
+	bird.update();
+	if (bird.hitFloor() || bird.hitRoof())
+		gameOver();
 	
-	if (birds.length == 0) {
-		nextGeneration();
-		pipes = [];
-		frameCount = 0;
-	}
+	bird.show();
 }
 
 function keyPressed() {
@@ -105,7 +87,14 @@ function parallax(img) {
 }
 
 function gameOver() {
-	
+	strokeWeight(8);
+	rectMode(CENTER);
+	fill(255);
+	rect(width / 2, height / 2, width - 80, 80);
+	fill(0);
+	text("Score: " +
+		score, width / 2, height / 2);
+	noLoop();
 }
 
 function pause() {
